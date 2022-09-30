@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  InfiniteScroll
+//  infiniteScroll
 //
 //  Created by Fabio Silvestri on 29/09/22.
 //
@@ -10,12 +10,18 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
+    var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        if let window = self.window {
+            let viewController = ViewController()
+            window.rootViewController = viewController
+            window.backgroundColor = UIColor.white
+            window.makeKeyAndVisible()
+        }
         return true
     }
+
 
     // MARK: UISceneSession Lifecycle
 
