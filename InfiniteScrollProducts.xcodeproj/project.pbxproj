@@ -101,10 +101,10 @@
 		E52A30C028E64B5800821E5C /* InfiniteScroll */ = {
 			isa = PBXGroup;
 			children = (
-				E52A30F328E64BC000821E5C /* DetailsView.swift */,
-				E52A30F428E64BC000821E5C /* Model.swift */,
 				E52A30F128E64BAA00821E5C /* APICaller.swift */,
 				E52A30C128E64B5800821E5C /* AppDelegate.swift */,
+				E52A30F328E64BC000821E5C /* DetailsView.swift */,
+				E52A30F428E64BC000821E5C /* Model.swift */,
 				E52A30C328E64B5800821E5C /* SceneDelegate.swift */,
 				E52A30C528E64B5800821E5C /* ViewController.swift */,
 				E52A30CA28E64B5900821E5C /* Assets.xcassets */,
