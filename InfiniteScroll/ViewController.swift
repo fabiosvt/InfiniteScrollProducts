@@ -23,7 +23,10 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     private var headerLabel: UILabel = {
         let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Products"
+        label.font = UIFont(name: "Halvetica", size: 17)
+        label.textColor = .white
         return label
     }()
 
@@ -70,11 +73,13 @@ extension ViewController {
             container.rightAnchor.constraint(equalTo: view.rightAnchor),
             container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            tableView.topAnchor.constraint(equalTo: container.topAnchor, constant: 120.0),
+            headerLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 100.0),
+            headerLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+
+            tableView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor),
             tableView.leftAnchor.constraint(equalTo: container.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: container.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -32.0)
-
 
         ])
     }
