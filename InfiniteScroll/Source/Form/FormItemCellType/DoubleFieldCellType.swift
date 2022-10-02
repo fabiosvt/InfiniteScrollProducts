@@ -1,5 +1,5 @@
 //
-//  IntFieldCellType.swift
+//  DoubleFieldCellType.swift
 //  InfiniteScrollProducts
 //
 //  Created by Fabio Silvestri on 02/10/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class IntFieldCellType: UITableViewCell, FormConformity {
+class DoubleFieldCellType: UITableViewCell, FormConformity {
     
     lazy var label: UILabel = {
         let label = UILabel()
@@ -17,7 +17,7 @@ class IntFieldCellType: UITableViewCell, FormConformity {
         return label
     }()
     
-    lazy var textField: UITextField = {
+    lazy var textField:UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Title *"
@@ -49,14 +49,14 @@ class IntFieldCellType: UITableViewCell, FormConformity {
     }
     
     @objc func textFieldDidChanged(_ textField: UITextField) {
-        if let textValue = textField.text, let intValue = Int(textValue) {
-            self.formItem?.valueCompletionInt?(intValue)
+        if let textValue = textField.text, let doubleValue = Double(textValue) {
+            self.formItem?.valueCompletionDouble?(doubleValue)
         }
     }
     
 }
 
-extension IntFieldCellType: ViewCode {
+extension DoubleFieldCellType: ViewCode {
     func setupHierarchy() {
         contentView.addSubview(label)
         contentView.addSubview(textField)
@@ -69,10 +69,9 @@ extension IntFieldCellType: ViewCode {
             "textField": textField
         ]
 
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[label(20)]-[textField]-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[label]-[textField]-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[label]-|", options: [], metrics: nil, views: viewsDict))
         contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[textField]-|", options: [], metrics: nil, views: viewsDict))
-
     }
     
     func setupConfiguration() {
@@ -81,11 +80,11 @@ extension IntFieldCellType: ViewCode {
 }
 
 // MARK: - FormUpdatable
-extension IntFieldCellType: FormUpdatable {
+extension DoubleFieldCellType: FormUpdatable {
     func update(with formItem: FormItem) {
         self.formItem = formItem
         self.label.text = self.formItem?.label
-        if let value = self.formItem?.valueInt {
+        if let value = self.formItem?.valueDouble {
             self.textField.text = "\(value)"
         }
         let bgColor: UIColor = self.formItem?.isValid  == false ? .red : .white
@@ -95,47 +94,3 @@ extension IntFieldCellType: FormUpdatable {
         self.textField.tintColor = self.formItem?.uiProperties.tintColor
     }
 }
-
-class IntFieldCellType2: UITableViewCell {
-
-    let imgUser = UIImageView()
-    let labUserName = UILabel()
-    let labMessage = UILabel()
-    let label = UILabel()
-    var formItem: FormItem?
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-
-        imgUser.backgroundColor = UIColor.blue
-
-        imgUser.translatesAutoresizingMaskIntoConstraints = false
-        labUserName.translatesAutoresizingMaskIntoConstraints = false
-        labMessage.translatesAutoresizingMaskIntoConstraints = false
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        contentView.addSubview(imgUser)
-        contentView.addSubview(labUserName)
-        contentView.addSubview(labMessage)
-        contentView.addSubview(label)
-
-        let viewsDict = [
-            "image": imgUser,
-            "username": labUserName,
-            "message": labMessage,
-            "labTime": label,
-        ]
-
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[image(10)]", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[labTime]-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[username]-[message]-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[username]-[image(10)]-|", options: [], metrics: nil, views: viewsDict))
-        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[message]-[labTime]-|", options: [], metrics: nil, views: viewsDict))
-    }
-
-    func setup() {
-        label.text = "äsas|"
-    }
-    
-}
-
