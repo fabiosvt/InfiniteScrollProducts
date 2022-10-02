@@ -26,6 +26,28 @@ class DetailsView: UIViewController, UITableViewDelegate {
         return tableView
     }()
 
+    private var container: UIView = {
+        let view = UIView(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var label: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont(name: "Halvetica", size: 17)
+        label.textColor = .red
+        return label
+    }()
+
+    private let button: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("Test button", for: .normal)
+        button.addTarget(self, action: #selector(updateTable), for: .touchUpInside)
+        return button
+    }()
+    
     init(product: Product) {
         self.product = product
         self.form = ProductForm(product: product)
@@ -46,6 +68,15 @@ class DetailsView: UIViewController, UITableViewDelegate {
         setupConfiguration()
     }
 
+    @objc func updateTable() {
+        print(self.product)
+        let isValid = form.isValid()
+        if !isValid.0 {
+            print(isValid.1)
+        } else {
+            self.navigationController?.popViewController(animated: true) //deinits correctly
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -79,6 +110,9 @@ extension DetailsView: UITableViewDataSource {
 extension DetailsView: ViewCode {
     func setupHierarchy() {
         view.addSubview(tableView)
+        view.addSubview(container)
+        container.addSubview(label)
+        container.addSubview(button)
     }
     
     func setupConstraints() {
@@ -86,7 +120,13 @@ extension DetailsView: ViewCode {
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: container.topAnchor),
+            
+            container.topAnchor.constraint(equalTo: tableView.bottomAnchor),
+            container.leftAnchor.constraint(equalTo: view.leftAnchor),
+            container.heightAnchor.constraint(equalToConstant: 100),
+            container.rightAnchor.constraint(equalTo: view.rightAnchor),
+            container.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -95,6 +135,7 @@ extension DetailsView: ViewCode {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.reloadData()
+        container.backgroundColor = UIColor.blue
         self.navigationItem.title = self.form.formTitle
     }
 }

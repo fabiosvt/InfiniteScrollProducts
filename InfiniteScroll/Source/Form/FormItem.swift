@@ -21,7 +21,7 @@ class FormItem: FormValidable {
 
     var isMandatory = true
     
-    var isValid = true //FormValidable
+    var isValid: Bool
     
     var uiProperties = FormItemUIProperties()
     
@@ -32,10 +32,14 @@ class FormItem: FormValidable {
         self.value = value
         self.valueInt = valueInt
         self.valueDouble = valueDouble
+        self.isValid = true
     }
     
     // MARK: FormValidable
     func checkValidity() {
+        print(self.isMandatory)
+        print(self.value)
+        print(self.value?.isEmpty)
         if self.isMandatory {
             self.isValid = self.value != nil && self.value?.isEmpty == false
         } else {

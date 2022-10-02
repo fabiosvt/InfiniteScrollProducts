@@ -16,7 +16,7 @@ class ProductForm {
     init(product: Product) {
         self.formTitle = "Product"
         self.product = product
-        self.configureProduct()
+        self.configureForm()
     }
 
     // MARK: Form Validation
@@ -28,12 +28,13 @@ class ProductForm {
             item.checkValidity()
             if !item.isValid {
                 isValid = false
+                return (isValid, item.label)
             }
         }
         return (isValid, nil)
     }
     
-    private func configureProduct() {
+    private func configureForm() {
         guard let product = self.product else { return }
         
         let id = FormItem(label: "ID", placeholder: "Enter ID")
@@ -42,6 +43,7 @@ class ProductForm {
         id.valueCompletionInt = { [weak self, weak id] value in
             self?.product?.id = value
             id?.valueInt = value
+            print(self?.product)
         }
 
         let title = FormItem(label: "Title", placeholder: "Enter Title")
