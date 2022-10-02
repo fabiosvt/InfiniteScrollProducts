@@ -1,5 +1,5 @@
 //
-//  FormTextFieldTableViewCell.swift
+//  TextFieldCellType.swift
 //  InfiniteScrollProducts
 //
 //  Created by Fabio Silvestri on 02/10/22.
@@ -7,9 +7,17 @@
 
 import UIKit
 
-class FormTextFieldTableViewCell: UITableViewCell, FormConformity {
+class TextFieldCellType: UITableViewCell, FormConformity {
     
-    lazy var ibTextField:UITextField = {
+    lazy var label: UILabel = {
+        let label = UILabel()
+        label.textColor = .red
+        label.font = .boldSystemFont(ofSize: 16.0)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var textField:UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.placeholder = "Title *"
@@ -46,36 +54,39 @@ class FormTextFieldTableViewCell: UITableViewCell, FormConformity {
     
 }
 
-extension FormTextFieldTableViewCell: ViewCode {
+extension TextFieldCellType: ViewCode {
     func setupHierarchy() {
-        contentView.addSubview(ibTextField)
+        contentView.addSubview(label)
+        contentView.addSubview(textField)
     }
     
     func setupConstraints() {
-        NSLayoutConstraint.activate([
-            contentView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            contentView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            contentView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-        ])
+        
+        let viewsDict = [
+            "label": label,
+            "textField": textField
+        ]
+
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|-[label]-[textField]-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[label]-|", options: [], metrics: nil, views: viewsDict))
+        contentView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|-[textField]-|", options: [], metrics: nil, views: viewsDict))
     }
     
     func setupConfiguration() {
-        // implement
+        label.text = formItem?.label
     }
 }
 
 // MARK: - FormUpdatable
-extension FormTextFieldTableViewCell: FormUpdatable {
+extension TextFieldCellType: FormUpdatable {
     func update(with formItem: FormItem) {
         self.formItem = formItem
-        
-        self.ibTextField.text = self.formItem?.value
-        
+        self.label.text = self.formItem?.label
+        self.textField.text = self.formItem?.value
         let bgColor: UIColor = self.formItem?.isValid  == false ? .red : .white
-        self.ibTextField.layer.backgroundColor = bgColor.cgColor
-        self.ibTextField.placeholder = self.formItem?.placeholder
-        self.ibTextField.keyboardType = self.formItem?.uiProperties.keyboardType ?? .default
-        self.ibTextField.tintColor = self.formItem?.uiProperties.tintColor
+        self.textField.layer.backgroundColor = bgColor.cgColor
+        self.textField.placeholder = self.formItem?.placeholder
+        self.textField.keyboardType = self.formItem?.uiProperties.keyboardType ?? .default
+        self.textField.tintColor = self.formItem?.uiProperties.tintColor
     }
 }

@@ -24,9 +24,11 @@
 		E52A310328E9B2DE00821E5C /* FormItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A310228E9B2DE00821E5C /* FormItem.swift */; };
 		E52A310728E9B35F00821E5C /* ProductForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A310628E9B35F00821E5C /* ProductForm.swift */; };
 		E52A310D28E9B3BF00821E5C /* FormItemCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A310C28E9B3BF00821E5C /* FormItemCellType.swift */; };
-		E52A311128E9B41800821E5C /* FormTextFieldTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A311028E9B41800821E5C /* FormTextFieldTableViewCell.swift */; };
-		E52A311328E9DB6E00821E5C /* FormTextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A311228E9DB6E00821E5C /* FormTextViewTableViewCell.swift */; };
+		E52A311128E9B41800821E5C /* TextFieldCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A311028E9B41800821E5C /* TextFieldCellType.swift */; };
+		E52A311328E9DB6E00821E5C /* TextViewCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A311228E9DB6E00821E5C /* TextViewCellType.swift */; };
 		E52A311928E9DD2900821E5C /* Products.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A311828E9DD2900821E5C /* Products.swift */; };
+		E52A311D28EA123A00821E5C /* IntFieldCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A311C28EA123A00821E5C /* IntFieldCellType.swift */; };
+		E52A311F28EA131200821E5C /* DoubleFieldCellType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E52A311E28EA131200821E5C /* DoubleFieldCellType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,9 +70,11 @@
 		E52A310228E9B2DE00821E5C /* FormItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItem.swift; sourceTree = "<group>"; };
 		E52A310628E9B35F00821E5C /* ProductForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductForm.swift; sourceTree = "<group>"; };
 		E52A310C28E9B3BF00821E5C /* FormItemCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormItemCellType.swift; sourceTree = "<group>"; };
-		E52A311028E9B41800821E5C /* FormTextFieldTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTextFieldTableViewCell.swift; sourceTree = "<group>"; };
-		E52A311228E9DB6E00821E5C /* FormTextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTextViewTableViewCell.swift; sourceTree = "<group>"; };
+		E52A311028E9B41800821E5C /* TextFieldCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCellType.swift; sourceTree = "<group>"; };
+		E52A311228E9DB6E00821E5C /* TextViewCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewCellType.swift; sourceTree = "<group>"; };
 		E52A311828E9DD2900821E5C /* Products.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Products.swift; sourceTree = "<group>"; };
+		E52A311C28EA123A00821E5C /* IntFieldCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntFieldCellType.swift; sourceTree = "<group>"; };
+		E52A311E28EA131200821E5C /* DoubleFieldCellType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleFieldCellType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,11 +154,10 @@
 		E52A310128E9B2B300821E5C /* Form */ = {
 			isa = PBXGroup;
 			children = (
+				E52A311B28EA113600821E5C /* FormItemCellType */,
 				E52A30FF28E9B23B00821E5C /* FormItemUIProperties.swift */,
 				E52A310228E9B2DE00821E5C /* FormItem.swift */,
 				E52A310C28E9B3BF00821E5C /* FormItemCellType.swift */,
-				E52A311028E9B41800821E5C /* FormTextFieldTableViewCell.swift */,
-				E52A311228E9DB6E00821E5C /* FormTextViewTableViewCell.swift */,
 			);
 			path = Form;
 			sourceTree = "<group>";
@@ -182,6 +185,17 @@
 				E52A311828E9DD2900821E5C /* Products.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E52A311B28EA113600821E5C /* FormItemCellType */ = {
+			isa = PBXGroup;
+			children = (
+				E52A311C28EA123A00821E5C /* IntFieldCellType.swift */,
+				E52A311E28EA131200821E5C /* DoubleFieldCellType.swift */,
+				E52A311028E9B41800821E5C /* TextFieldCellType.swift */,
+				E52A311228E9DB6E00821E5C /* TextViewCellType.swift */,
+			);
+			path = FormItemCellType;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,17 +328,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				E52A30F828E7571E00821E5C /* DetailsCell.swift in Sources */,
+				E52A311D28EA123A00821E5C /* IntFieldCellType.swift in Sources */,
 				E52A30C628E64B5800821E5C /* ViewController.swift in Sources */,
-				E52A311128E9B41800821E5C /* FormTextFieldTableViewCell.swift in Sources */,
+				E52A311128E9B41800821E5C /* TextFieldCellType.swift in Sources */,
 				E52A310D28E9B3BF00821E5C /* FormItemCellType.swift in Sources */,
 				E52A30FC28E765F200821E5C /* ViewCode.swift in Sources */,
 				E52A30F528E64BC000821E5C /* DetailsView.swift in Sources */,
+				E52A311F28EA131200821E5C /* DoubleFieldCellType.swift in Sources */,
 				E52A310328E9B2DE00821E5C /* FormItem.swift in Sources */,
 				E52A310028E9B23B00821E5C /* FormItemUIProperties.swift in Sources */,
 				E52A30FA28E75C1300821E5C /* CellModel.swift in Sources */,
 				E52A30C228E64B5800821E5C /* AppDelegate.swift in Sources */,
 				E52A30FE28E77D0300821E5C /* HeaderCell.swift in Sources */,
-				E52A311328E9DB6E00821E5C /* FormTextViewTableViewCell.swift in Sources */,
+				E52A311328E9DB6E00821E5C /* TextViewCellType.swift in Sources */,
 				E52A30C428E64B5800821E5C /* SceneDelegate.swift in Sources */,
 				E52A30F228E64BAA00821E5C /* APICaller.swift in Sources */,
 				E52A311928E9DD2900821E5C /* Products.swift in Sources */,

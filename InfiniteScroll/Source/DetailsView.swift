@@ -11,13 +11,15 @@ class DetailsView: UIViewController, UITableViewDelegate {
 
     let product: Product
     
-    fileprivate var form = ProductForm()
+    fileprivate var form: ProductForm
 
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(FormTextFieldTableViewCell.self, forCellReuseIdentifier: "FormTextFieldTableViewCell")
-        tableView.register(FormTextViewTableViewCell.self, forCellReuseIdentifier: "FormTextViewTableViewCell")
+        tableView.register(TextFieldCellType.self, forCellReuseIdentifier: "TextFieldCellType")
+        tableView.register(IntFieldCellType.self, forCellReuseIdentifier: "IntFieldCellType")
+        tableView.register(DoubleFieldCellType.self, forCellReuseIdentifier: "DoubleFieldCellType")
+        tableView.register(TextViewCellType.self, forCellReuseIdentifier: "TextViewCellType")
         tableView.allowsSelection = false
         tableView.estimatedRowHeight = 60
         tableView.rowHeight = UITableView.automaticDimension
@@ -26,10 +28,7 @@ class DetailsView: UIViewController, UITableViewDelegate {
 
     init(product: Product) {
         self.product = product
-        form.id = product.id
-        form.title = product.title
-        form.description = product.description
-
+        self.form = ProductForm(product: product)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -46,12 +45,7 @@ class DetailsView: UIViewController, UITableViewDelegate {
         setupConstraints()
         setupConfiguration()
     }
-    
-    @IBAction func didTapValidate(_ sender: Any) {
-//        self.form.isValid()
-//        self.ibTableView.reloadData()
-    }
-    
+
 }
 
 // MARK: - UITableViewDataSource

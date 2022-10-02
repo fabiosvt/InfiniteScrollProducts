@@ -151,10 +151,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let push = DetailsView(product: data[indexPath.section][indexPath.row])
-         //self.present(push, animated: true, completion: nil)
-        print(self.navigationController)
-         self.navigationController?.pushViewController(push, animated: true)
-
+        self.navigationController?.pushViewController(push, animated: true)
     }
 }
 
