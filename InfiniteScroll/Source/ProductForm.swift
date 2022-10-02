@@ -84,9 +84,9 @@ class ProductForm {
         rating.uiProperties.cellType = FormItemCellType.doubleField
         rating.valueDouble = product.rating
         rating.uiProperties.keyboardType = .namePhonePad
-        rating.valueCompletionDouble = { [weak self, weak discountPercentage] value in
+        rating.valueCompletionDouble = { [weak self, weak rating] value in
             self?.product?.rating = value
-            rating.valueDouble = value
+            rating?.valueDouble = value
         }
 
         let stock = FormItem(label: "Stock", placeholder: "Enter Stock")
