@@ -1,13 +1,13 @@
 //
-//  Model.swift
-//  infiniteScroll
+//  Products.swift
+//  InfiniteScrollProducts
 //
-//  Created by Fabio Silvestri on 29/09/22.
+//  Created by Fabio Silvestri on 02/10/22.
 //
 
 import Foundation
 
-struct Item: Decodable {
+struct Product: Decodable {
     let id: Int?
     let title: String?
     let description: String?
@@ -22,7 +22,7 @@ struct Item: Decodable {
 }
 
 struct Products: Decodable {
-    let products: [Item]
+    let products: [Product]
     let total: Int
     let skip: Int
     let limit: Int

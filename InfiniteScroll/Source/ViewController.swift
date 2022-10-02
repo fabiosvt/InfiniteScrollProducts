@@ -7,12 +7,7 @@
 
 import UIKit
 
-protocol DetailsViewDelegate: AnyObject {
-    func goToProductDetail(didSelect infiniteProduct: String, atIndex index: Int)
-}
-
 class ViewController: UIViewController, UIScrollViewDelegate {
-    weak var delegate: DetailsViewDelegate?
     private let apiCaller = APICaller()
     
     private var container: UIView = {
@@ -33,33 +28,32 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(DetailsCell.self, forCellReuseIdentifier: "DetailsCell")
         return tableView
     }()
 
-    private var data: [[Item]] = []
+    private var data: [[Product]] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        self.delegate = self
+        tableView.allowsSelection = true
+        tableView.sectionHeaderTopPadding = 0.0
+
         fetchNewData()
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.view.backgroundColor = UIColor.blue
         setupHierarchy()
         setupConstraints()
+        setupConfiguration()
     }
 }
 
-// MARK: Viewcode
-
-extension ViewController {
-
+extension ViewController: ViewCode {
     func setupHierarchy() {
         view.addSubview(container)
         container.addSubview(headerLabel)
@@ -73,16 +67,21 @@ extension ViewController {
             container.rightAnchor.constraint(equalTo: view.rightAnchor),
             container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            headerLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 100.0),
+            headerLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 80.0),
             headerLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
 
-            tableView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20.0),
             tableView.leftAnchor.constraint(equalTo: container.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: container.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -32.0)
 
         ])
     }
+
+    func setupConfiguration() {
+        self.view.backgroundColor = UIColor.blue
+    }
+
 }
 
 // MARK: Methods
@@ -103,7 +102,8 @@ extension ViewController {
     private func fetchNewData() {
         apiCaller.fetchData(pagination: true, completion: { [weak self] result in
             switch result {
-            case .success(let data):
+            case .success(var data):
+                data.shuffle()
                 self?.data.append(contentsOf: [data])
                 DispatchQueue.main.async {
                     self?.tableView.reloadData()
@@ -112,10 +112,6 @@ extension ViewController {
                 break
             }
         })
-    }
-    
-    @objc func visibleRow() {
-        
     }
 }
 
@@ -132,51 +128,41 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        let label = UILabel()
-        let button = UIButton(type: UIButton.ButtonType.system)
-        
-        label.text="Products section \(section)"
-        button.setTitle("Test button", for: .normal)
-        button.addTarget(self, action: #selector(visibleRow), for: .touchUpInside)
-        
-        view.addSubview(label)
-        view.addSubview(button)
-        
-        label.translatesAutoresizingMaskIntoConstraints = false
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        let views = ["label": label, "button": button, "view": view]
-        
-        let horizontallayoutContraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[label]-60-[button]-10-|", options: .alignAllCenterY, metrics: nil, views: views)
-        view.addConstraints(horizontallayoutContraints)
-        
-        let verticalLayoutContraint = NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0)
-        view.addConstraint(verticalLayoutContraint)
-        
+        let view = HeaderCell(section: section)
+        view.setup()
         return view
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120
     }
 
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
-    
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = data[indexPath.section][indexPath.row].title
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsCell", for: indexPath) as? DetailsCell else { return UITableViewCell() }
+        cell.model = CellModel(item: data[indexPath.section][indexPath.row], indexPath: indexPath)
+        cell.delegate = self
+        cell.setup()
         return cell
     }
     
-    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(#function, #line, "index:\(indexPath.row)", self.delegate, delegate)
-        delegate?.goToProductDetail(didSelect: "items.recommendedList[indexPath.row]", atIndex: indexPath.row)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let push = DetailsView(product: data[indexPath.section][indexPath.row])
+         //self.present(push, animated: true, completion: nil)
+        print(self.navigationController)
+         self.navigationController?.pushViewController(push, animated: true)
+
     }
 }
 
 // MARK: Details delegate
 
 extension ViewController: DetailsViewDelegate {
-    func goToProductDetail(didSelect infiniteProduct: String, atIndex index: Int) {
-        print(#function, #line, "index:\(index)", self.delegate, delegate)
+    func goToProductDetail(didSelect infiniteProduct: Product) {
+        print(#function, #line, infiniteProduct)
     }
 }
+

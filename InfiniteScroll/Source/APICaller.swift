@@ -9,7 +9,7 @@ import Foundation
 class APICaller {
     var isPaginating = false
     let itemsToDownload = 20
-    func fetchData(pagination:Bool = false, completion: @escaping (Result<[Item], Error>) -> Void) {
+    func fetchData(pagination:Bool = false, completion: @escaping (Result<[Product], Error>) -> Void) {
         isPaginating = true
         let session = URLSession.shared
         if let url = URL(string: "https://dummyjson.com/products?limit=\(itemsToDownload)") {
