@@ -29,9 +29,8 @@ class TextViewCellType: UITableViewCell, FormConformity {
 extension TextViewCellType: FormUpdatable {
     func update(with formItem: FormItem) {
         self.formItem = formItem
-        
-        self.textField.text = self.formItem?.value
-        
+        let s = String(describing: self.formItem?.value)
+        self.textField.text = s
         let bgColor: UIColor = self.formItem?.isValid  == false ? .red : .white
         self.textField.layer.backgroundColor = bgColor.cgColor
         self.textField.placeholder = self.formItem?.placeholder

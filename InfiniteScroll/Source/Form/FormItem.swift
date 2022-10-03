@@ -10,44 +10,39 @@ import UIKit
 /// ViewModel to display and react to text events, to update data
 class FormItem: FormValidable {
     var label: String?
-    var value: String?
-    var intValue: Int?
-    var doubleValue: Double?
+    var value: AnyObject?
     var placeholder = ""
     var indexPath: IndexPath?
     var valueCompletion: ((String?) -> Void)?
-    var valueCompletionInt: ((Int?) -> Void)?
-    var valueCompletionDouble: ((Double?) -> Void)?
     var isMandatory = false
     var isValid: Bool
     
     var uiProperties = FormItemUIProperties()
     
     // MARK: Init
-    init(label: String?, placeholder: String, value: String? = nil, intValue: Int? = nil, doubleValue: Double? = nil) {
+    init(label: String?, placeholder: String, value: AnyObject? = nil) {
         self.label = label
         self.placeholder = placeholder
         self.value = value
-        self.intValue = intValue
-        self.doubleValue = doubleValue
         self.isValid = true
+    }
+    
+    private func checkDataForValue() -> String? {
+        switch self.value {
+        case .none, .some(is NSNull):       return nil
+        case .some(let value as String):    return value == "<null>" ? nil : value
+        case .some(let value):              return "\(value)"
+        }
     }
     
     // MARK: FormValidable
     func checkValidity() {
         if self.isMandatory {
-            switch self.uiProperties.cellType {
-            case .textField:
-                self.isValid = self.value != nil && self.value?.isEmpty == false
-            case .intField:
-                self.isValid = self.intValue != nil
-            case .doubleField:
-                self.isValid = self.doubleValue != nil
-            default:
-                self.isValid = self.value != nil && self.value?.isEmpty == false
-            }
-        } else {
+            let anyValue = self.checkDataForValue()
+            self.isValid = anyValue != nil && anyValue != nil && anyValue?.isEmpty == false
+         } else {
             self.isValid = true
         }
+        debugPrint(self.value, self.value?.isEmpty, self.isValid)
     }
 }
