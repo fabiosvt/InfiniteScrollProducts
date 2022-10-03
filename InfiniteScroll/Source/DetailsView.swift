@@ -21,8 +21,6 @@ class DetailsView: UIViewController, UITableViewDelegate {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(TextFieldCellType.self, forCellReuseIdentifier: "TextFieldCellType")
-        tableView.register(IntFieldCellType.self, forCellReuseIdentifier: "IntFieldCellType")
-        tableView.register(DoubleFieldCellType.self, forCellReuseIdentifier: "DoubleFieldCellType")
         tableView.register(TextViewCellType.self, forCellReuseIdentifier: "TextViewCellType")
         tableView.allowsSelection = false
         tableView.estimatedRowHeight = 60
@@ -79,6 +77,7 @@ class DetailsView: UIViewController, UITableViewDelegate {
         if !isValid.0, let fieldError = isValid.1 {
             label.text = "Invalid field \(fieldError)"
         } else {
+            debugPrint(product)
             self.navigationController?.popViewController(animated: true) //deinits correctly
         }
     }
@@ -115,6 +114,7 @@ extension DetailsView: UITableViewDataSource {
 extension DetailsView: FormDelegate {
 
     func didUpdateForm(product: Product) {
+        debugPrint(product)
         self.product = product
     }
 

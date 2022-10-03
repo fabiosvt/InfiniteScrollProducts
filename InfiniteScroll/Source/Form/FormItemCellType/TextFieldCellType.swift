@@ -82,7 +82,25 @@ extension TextFieldCellType: FormUpdatable {
     func update(with formItem: FormItem) {
         self.formItem = formItem
         self.label.text = self.formItem?.label
-        self.textField.text = self.formItem?.value
+        switch self.formItem?.uiProperties.cellType {
+        case .textField:
+            if let value = self.formItem?.value as? String {
+                self.textField.text = value
+            }
+        case .intField:
+            if let value = self.formItem?.value as? Int {
+                self.textField.text = "\(value)"
+
+            }
+        case .doubleField:
+            if let value = self.formItem?.value as? Double {
+                self.textField.text = "\(value)"
+            }
+        default:
+            if let value = self.formItem?.value as? String {
+                self.textField.text = value
+            }
+        }
         let bgColor: UIColor = self.formItem?.isValid  == false ? .red : .white
         self.textField.layer.backgroundColor = bgColor.cgColor
         self.textField.placeholder = self.formItem?.placeholder

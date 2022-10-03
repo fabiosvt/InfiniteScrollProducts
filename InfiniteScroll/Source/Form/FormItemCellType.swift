@@ -37,30 +37,14 @@ enum FormItemCellType {
     /// - Parameter tableView: TableView where apply cells registration
     static func registerCells(for tableView: UITableView) {
         tableView.register(TextFieldCellType.self, forCellReuseIdentifier: "TextFieldCellType")
-        tableView.register(IntFieldCellType.self, forCellReuseIdentifier: "IntFieldCellType")
-        tableView.register(DoubleFieldCellType.self, forCellReuseIdentifier: "DoubleFieldCellType")
         tableView.register(TextViewCellType.self, forCellReuseIdentifier: "TextViewCellType")
     }
     
-    /// Correctly dequeue the UITableViewCell according to the current cell type
-    ///
-    /// - Parameters:
-    ///   - tableView: TableView where cells previously registered
-    ///   - indexPath: indexPath where dequeue
-    /// - Returns: a non-nullable UITableViewCell dequeued
     func dequeueCell(for tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
                 
         switch self {
-        case .textField:
+        case .textField, .intField, .doubleField:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextFieldCellType", for: indexPath) as? TextFieldCellType else { return UITableViewCell() }
-            cell.setup()
-            return cell
-        case .intField:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "IntFieldCellType", for: indexPath) as? IntFieldCellType else { return UITableViewCell() }
-            cell.setup()
-            return cell
-        case .doubleField:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "DoubleFieldCellType", for: indexPath) as? DoubleFieldCellType else { return UITableViewCell() }
             cell.setup()
             return cell
         case .textView:
