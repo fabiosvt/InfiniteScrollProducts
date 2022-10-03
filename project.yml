@@ -1,0 +1,217 @@
+name: InfiniteScrollProducts
+attributes:
+  LastUpgradeCheck: 5
+  ORGANIZATIONNAME: "fabiosvt, Inc."
+options:
+  bundleIdPrefix: fabiosvt.InfiniteScroll.InfiniteScroll
+  deploymentTarget:
+    iOS: 15.5
+configs:
+  Develop Debug: debug
+  Staging Debug: debug
+  Production Debug: debug
+  Develop Release: release
+  Staging Release: release
+  Production Release: release
+
+schemes:
+  App Develop:
+    build:
+      targets:
+        InfiniteScrollProducts: all
+    run:
+      config: Develop Debug
+      commandLineArguments:
+        -FIRAnalyticsDebugEnabled: YES
+        -FIRDebugDisabled: YES
+    test:
+      config: Develop Debug
+      commandLineArguments:
+        -FIRAnalyticsDebugEnabled: YES
+        -FIRDebugDisabled: YES
+      gatherCoverageData: true
+      targets:
+        - name: AppTests
+          parallelizable: true
+          randomExecutionOrder: true
+    profile:
+      config: Develop Release
+    analyze:
+      config: Develop Debug
+    archive:
+      config: Develop Release
+      revealArchiveInOrganizer: false
+  App Staging:
+    build:
+      targets:
+        InfiniteScrollProducts: all
+    run:
+      config: Staging Debug
+      commandLineArguments:
+        -FIRAnalyticsDebugEnabled: YES
+        -FIRDebugDisabled: YES
+    test:
+      config: Staging Debug
+      commandLineArguments:
+        -FIRAnalyticsDebugEnabled: YES
+        -FIRDebugDisabled: YES
+      gatherCoverageData: true
+      targets:
+        - name: AppTests
+          parallelizable: true
+          randomExecutionOrder: true
+    profile:
+      config: Staging Release
+    analyze:
+      config: Staging Debug
+    archive:
+      config: Staging Release
+      revealArchiveInOrganizer: true
+  App Production:
+    build:
+      targets:
+        InfiniteScrollProducts: all
+    run:
+      config: Production Debug
+      commandLineArguments:
+        -FIRAnalyticsDebugEnabled: NO
+    test:
+      config: Production Debug
+      commandLineArguments:
+        -FIRAnalyticsDebugEnabled: YES
+      gatherCoverageData: true
+      targets:
+        - name: AppTests
+          parallelizable: true
+          randomExecutionOrder: true
+    profile:
+      config: Production Release
+    analyze:
+      config: Production Debug
+    archive:
+      config: Production Release
+      revealArchiveInOrganizer: true
+
+settings:
+  base:
+    IPHONEOS_DEPLOYMENT_TARGET: 13.1.3
+    TARGETED_DEVICE_FAMILY: 1,2
+    SWIFT_VERSION: 5.0
+    CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED: YES
+
+settingGroups:
+  appBaseSettings:
+    DEVELOPMENT_TEAM: XXXXXXXXXX
+
+targets:
+  InfiniteScrollProducts:
+    type: application
+    platform: iOS
+    deploymentTarget: 15.5
+    sources:
+      - path: InfiniteScrollProducts
+        name: InfiniteScrollProducts
+        excludes:
+          - FirebaseOptions
+    settings:
+      groups:
+        - appBaseSettings
+      base:
+        DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+        MARKETING_VERSION: 2.2.5
+        CURRENT_PROJECT_VERSION: 46
+        OTHER_LDFLAGS:
+          - $(inherited)
+          - $(OTHER_LDFLAGS)
+          - -ObjC
+      configs:
+        Develop Debug: &develop_config
+          API_HOST: xxx
+          API_BASE_PATH: https:$()/$()/$(API_HOST)
+          ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+          WEB_HOST: xxx
+          WEB_BASE_PATH: https:$()/$()/$(WEB_HOST)
+          BUNDLE_DISPLAY_NAME: "XXXXXXXXXX"
+          GOOGLESERVICE_INFO_PLIST_DIR: ${SRCROOT}/App/FirebaseOptions/Develop
+          PRODUCT_BUNDLE_IDENTIFIER: com.xxxxxx.xxxxxx.xxx
+          STRIPE_API_KEY: xxx
+          FIREBASE_CUSTOM_URL_SCHEME: com.googleusercontent.apps
+        Develop Release: *develop_config
+        Staging Debug: &staging_config
+          API_HOST: xxx
+          API_BASE_PATH: https:$()/$()/$(API_HOST)
+          ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+          WEB_HOST: xxx
+          WEB_BASE_PATH: https:$()/$()/$(WEB_HOST)
+          BUNDLE_DISPLAY_NAME: "XXXXXXXXXX"
+          GOOGLESERVICE_INFO_PLIST_DIR: ${SRCROOT}/App/FirebaseOptions/Staging
+          PRODUCT_BUNDLE_IDENTIFIER: xxx
+          STRIPE_API_KEY: xxx
+          FIREBASE_CUSTOM_URL_SCHEME: com.googleusercontent.apps.xxx
+        Staging Release: *staging_config
+        Production Debug: &production_config
+          API_HOST: xxx
+          API_BASE_PATH: https:$()/$()/$(API_HOST)
+          ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+          WEB_HOST: xxx
+          WEB_BASE_PATH: https:$()/$()/$(WEB_HOST)
+          BUNDLE_DISPLAY_NAME: "XXXXXXXXXX"
+          GOOGLESERVICE_INFO_PLIST_DIR: ${SRCROOT}/App/FirebaseOptions/Production
+          PRODUCT_BUNDLE_IDENTIFIER: com.kankak.coffee
+          STRIPE_API_KEY: xxx
+          FIREBASE_CUSTOM_URL_SCHEME: com.googleusercontent.apps.xxx
+        Production Release: *production_config
+
+    info:
+      path: "./InfiniteScrollProducts/Info.plist"
+      properties:
+        API_BASE_PATH: $(API_BASE_PATH)
+        WEB_BASE_PATH: $(WEB_BASE_PATH)
+        STRIPE_API_KEY: $(STRIPE_API_KEY)
+        CFBundleDisplayName: $(BUNDLE_DISPLAY_NAME)
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundlePackageType: $(PRODUCT_BUNDLE_PACKAGE_TYPE)
+        CFBundleURLTypes:
+          - CFBundleTypeRole: Editor
+            CFBundleURLName: Firebase Auth URL Scheme
+            CFBundleURLSchemes:
+              - "$(FIREBASE_CUSTOM_URL_SCHEME)"
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UIRequiredDeviceCapabilities:
+          - armv7
+        UILaunchStoryboardName: LaunchScreen
+        LSApplicationQueriesSchemes:
+          - googlechromes
+          - comgooglemaps
+          - line
+          - twitter
+          - fb
+        LSRequiresIPhoneOS: true
+        SMAuthorizedClients:
+          - ""
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+
+  AppTests:
+    type:  bundle.unit-test
+    platform: iOS
+    sources: [InfiniteScrollProducts]
+    scheme: {}
+    dependencies:
+      - target: InfiniteScrollProducts
+    settings:
+      CLANG_ENABLE_MODULES: YES
+      DEVELOPMENT_TEAM: XXXXXXXXXX
