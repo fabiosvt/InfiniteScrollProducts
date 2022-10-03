@@ -76,7 +76,7 @@ extension DetailsCell: ViewCode {
             label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
             label.heightAnchor.constraint(equalToConstant: 30),
             label.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),
-            label.rightAnchor.constraint(equalTo: rightAnchor, constant: -24),
+            label.rightAnchor.constraint(equalTo: rightAnchor, constant: -12),
 
             button.heightAnchor.constraint(equalToConstant: 30),
             button.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),

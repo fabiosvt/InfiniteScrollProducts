@@ -45,9 +45,10 @@ class DetailsView: UIViewController, UITableViewDelegate {
     }()
 
     private let button: UIButton = {
-        let button = UIButton(type: .system)
+        let button = UIButton(type: .contactAdd)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Test button", for: .normal)
+        button.setTitle("Update", for: .normal)
+        button.tintColor = .white
         button.addTarget(self, action: #selector(updateTable), for: .touchUpInside)
         return button
     }()
@@ -75,8 +76,8 @@ class DetailsView: UIViewController, UITableViewDelegate {
 
     @objc func updateTable() {
         let isValid = form.isValid()
-        if !isValid.0 {
-            debugPrint(isValid.1)
+        if !isValid.0, let fieldError = isValid.1 {
+            label.text = "Invalid field \(fieldError)"
         } else {
             self.navigationController?.popViewController(animated: true) //deinits correctly
         }
@@ -138,7 +139,16 @@ extension DetailsView: ViewCode {
             container.leftAnchor.constraint(equalTo: view.leftAnchor),
             container.heightAnchor.constraint(equalToConstant: 100),
             container.rightAnchor.constraint(equalTo: view.rightAnchor),
-            container.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+
+            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 12.0),
+            label.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.7),
+            label.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+
+            button.heightAnchor.constraint(equalToConstant: 30),
+            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 12),
+            button.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 12),
+            button.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -12)
         ])
     }
     
