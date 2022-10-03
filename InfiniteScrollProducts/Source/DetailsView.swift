@@ -18,7 +18,7 @@ class DetailsView: UIViewController, UITableViewDelegate {
     fileprivate var form: ProductForm
 
     private var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
+        let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(TextFieldCellType.self, forCellReuseIdentifier: "TextFieldCellType")
         tableView.register(TextViewCellType.self, forCellReuseIdentifier: "TextViewCellType")
@@ -67,18 +67,17 @@ class DetailsView: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        setupHierarchy()
-        setupConstraints()
-        setupConfiguration()
+        setupViewCode()
     }
 
     @objc func updateTable() {
-        let isValid = form.isValid()
+        label.text = "Invalid field "
+       let isValid = form.isValid()
         if !isValid.0, let fieldError = isValid.1 {
             label.text = "Invalid field \(fieldError)"
         } else {
             debugPrint(product)
-            self.navigationController?.popViewController(animated: true) //deinits correctly
+          //  self.navigationController?.popViewController(animated: true) //deinits correctly
         }
     }
 }
@@ -130,25 +129,23 @@ extension DetailsView: ViewCode {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: container.topAnchor),
             
             container.topAnchor.constraint(equalTo: tableView.bottomAnchor),
             container.leftAnchor.constraint(equalTo: view.leftAnchor),
-            container.heightAnchor.constraint(equalToConstant: 100),
+            container.heightAnchor.constraint(equalToConstant: 80),
             container.rightAnchor.constraint(equalTo: view.rightAnchor),
             container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 
-            label.topAnchor.constraint(equalTo: container.topAnchor, constant: 12.0),
+            label.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 12),
             label.widthAnchor.constraint(equalTo: container.widthAnchor, multiplier: 0.7),
-            label.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            label.bottomAnchor.constraint(equalTo: button.topAnchor),
 
-            button.heightAnchor.constraint(equalToConstant: 30),
-            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 12),
-            button.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 12),
-            button.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -12)
+            button.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+            button.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -24),
         ])
     }
     
