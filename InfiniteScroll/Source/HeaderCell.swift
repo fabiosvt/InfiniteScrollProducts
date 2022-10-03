@@ -49,7 +49,7 @@ class HeaderCell: UIView {
     }
     
     @objc func visibleHeader() {
-        print(#function, #line, section)
+        debugPrint(#function, #line, section)
     }
 }
 

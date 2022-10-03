@@ -28,7 +28,7 @@ class TextFieldCellType: UITableViewCell, FormConformity {
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         textField.clearButtonMode = UITextField.ViewMode.whileEditing;
         textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
-        textField.addTarget(self, action: #selector(textFieldDidChanged(_:)), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldDidChanged(_:)), for: .allEditingEvents)
         return textField
     }()
     

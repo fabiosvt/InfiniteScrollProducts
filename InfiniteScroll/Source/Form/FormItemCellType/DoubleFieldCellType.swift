@@ -28,7 +28,7 @@ class DoubleFieldCellType: UITableViewCell, FormConformity {
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         textField.clearButtonMode = UITextField.ViewMode.whileEditing;
         textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
-        textField.addTarget(self, action: #selector(textFieldDidChanged(_:)), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldDidChanged(_:)), for: .allEditingEvents)
         return textField
     }()
     
@@ -51,6 +51,8 @@ class DoubleFieldCellType: UITableViewCell, FormConformity {
     @objc func textFieldDidChanged(_ textField: UITextField) {
         if let textValue = textField.text, let doubleValue = Double(textValue) {
             self.formItem?.valueCompletionDouble?(doubleValue)
+        } else {
+            self.formItem?.valueCompletionInt?(nil)
         }
     }
     
@@ -84,7 +86,7 @@ extension DoubleFieldCellType: FormUpdatable {
     func update(with formItem: FormItem) {
         self.formItem = formItem
         self.label.text = self.formItem?.label
-        if let value = self.formItem?.valueDouble {
+        if let value = self.formItem?.doubleValue {
             self.textField.text = "\(value)"
         }
         let bgColor: UIColor = self.formItem?.isValid  == false ? .red : .white

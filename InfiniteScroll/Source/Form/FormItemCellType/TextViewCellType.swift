@@ -16,7 +16,7 @@ class TextViewCellType: UITableViewCell, FormConformity {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.textField.addTarget(self, action: #selector(textFieldDidChanged(_:)), for: .editingChanged)
+        self.textField.addTarget(self, action: #selector(textFieldDidChanged(_:)), for: .allEditingEvents)
     }
     
     @objc func textFieldDidChanged(_ textField: UITextField) {

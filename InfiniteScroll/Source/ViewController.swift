@@ -94,7 +94,7 @@ extension ViewController {
         let scrollOffset = scrollView.contentOffset.y
         if scrollOffset + scrollViewHeight >= scrollContentSizeHeight {
             guard !apiCaller.isPaginating else { return }
-            print("% '\(scrollOffset) \(scrollViewHeight)'")
+            debugPrint("% '\(scrollOffset) \(scrollViewHeight)'")
             fetchNewData()
         }
     }
@@ -159,7 +159,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ViewController: DetailsViewDelegate {
     func goToProductDetail(didSelect infiniteProduct: Product) {
-        print(#function, #line, infiniteProduct)
+        debugPrint(#function, #line, infiniteProduct)
     }
 }
 

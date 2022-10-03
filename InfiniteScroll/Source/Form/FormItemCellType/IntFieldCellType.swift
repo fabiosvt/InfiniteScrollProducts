@@ -28,7 +28,7 @@ class IntFieldCellType: UITableViewCell, FormConformity {
         textField.borderStyle = UITextField.BorderStyle.roundedRect
         textField.clearButtonMode = UITextField.ViewMode.whileEditing;
         textField.contentVerticalAlignment = UIControl.ContentVerticalAlignment.center
-        textField.addTarget(self, action: #selector(textFieldDidChanged(_:)), for: .editingChanged)
+        textField.addTarget(self, action: #selector(textFieldDidChanged(_:)), for: .allEditingEvents)
         return textField
     }()
     
@@ -51,6 +51,8 @@ class IntFieldCellType: UITableViewCell, FormConformity {
     @objc func textFieldDidChanged(_ textField: UITextField) {
         if let textValue = textField.text, let intValue = Int(textValue) {
             self.formItem?.valueCompletionInt?(intValue)
+        } else {
+            self.formItem?.valueCompletionInt?(nil)
         }
     }
     
@@ -85,7 +87,7 @@ extension IntFieldCellType: FormUpdatable {
     func update(with formItem: FormItem) {
         self.formItem = formItem
         self.label.text = self.formItem?.label
-        if let value = self.formItem?.valueInt {
+        if let value = self.formItem?.intValue {
             self.textField.text = "\(value)"
         }
         let bgColor: UIColor = self.formItem?.isValid  == false ? .red : .white

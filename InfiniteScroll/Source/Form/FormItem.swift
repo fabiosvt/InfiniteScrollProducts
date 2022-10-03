@@ -11,37 +11,41 @@ import UIKit
 class FormItem: FormValidable {
     var label: String?
     var value: String?
-    var valueInt: Int?
-    var valueDouble: Double?
+    var intValue: Int?
+    var doubleValue: Double?
     var placeholder = ""
     var indexPath: IndexPath?
     var valueCompletion: ((String?) -> Void)?
     var valueCompletionInt: ((Int?) -> Void)?
     var valueCompletionDouble: ((Double?) -> Void)?
-
-    var isMandatory = true
-    
+    var isMandatory = false
     var isValid: Bool
     
     var uiProperties = FormItemUIProperties()
     
     // MARK: Init
-    init(label: String?, placeholder: String, value: String? = nil, valueInt: Int? = nil, valueDouble: Double? = nil) {
+    init(label: String?, placeholder: String, value: String? = nil, intValue: Int? = nil, doubleValue: Double? = nil) {
         self.label = label
         self.placeholder = placeholder
         self.value = value
-        self.valueInt = valueInt
-        self.valueDouble = valueDouble
+        self.intValue = intValue
+        self.doubleValue = doubleValue
         self.isValid = true
     }
     
     // MARK: FormValidable
     func checkValidity() {
-        print(self.isMandatory)
-        print(self.value)
-        print(self.value?.isEmpty)
         if self.isMandatory {
-            self.isValid = self.value != nil && self.value?.isEmpty == false
+            switch self.uiProperties.cellType {
+            case .textField:
+                self.isValid = self.value != nil && self.value?.isEmpty == false
+            case .intField:
+                self.isValid = self.intValue != nil
+            case .doubleField:
+                self.isValid = self.doubleValue != nil
+            default:
+                self.isValid = self.value != nil && self.value?.isEmpty == false
+            }
         } else {
             self.isValid = true
         }

@@ -7,9 +7,13 @@
 
 import UIKit
 
+protocol FormDelegate {
+    func didUpdateForm(product: Product)
+}
+
 class DetailsView: UIViewController, UITableViewDelegate {
 
-    let product: Product
+    var product: Product
     
     fileprivate var form: ProductForm
 
@@ -52,6 +56,7 @@ class DetailsView: UIViewController, UITableViewDelegate {
         self.product = product
         self.form = ProductForm(product: product)
         super.init(nibName: nil, bundle: nil)
+        self.form.formDelegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -69,10 +74,9 @@ class DetailsView: UIViewController, UITableViewDelegate {
     }
 
     @objc func updateTable() {
-        print(self.product)
         let isValid = form.isValid()
         if !isValid.0 {
-            print(isValid.1)
+            debugPrint(isValid.1)
         } else {
             self.navigationController?.popViewController(animated: true) //deinits correctly
         }
@@ -105,6 +109,14 @@ extension DetailsView: UITableViewDataSource {
         
         return cell
     }
+}
+
+extension DetailsView: FormDelegate {
+
+    func didUpdateForm(product: Product) {
+        self.product = product
+    }
+
 }
 
 extension DetailsView: ViewCode {
