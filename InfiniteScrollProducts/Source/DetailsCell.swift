@@ -40,12 +40,6 @@ class DetailsCell: UITableViewCell {
         return button
     }()
     
-    func setup() {
-        setupHierarchy()
-        setupConstraints()
-        setupConfiguration()
-    }
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
     }

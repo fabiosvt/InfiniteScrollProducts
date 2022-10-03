@@ -67,9 +67,7 @@ class DetailsView: UIViewController, UITableViewDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        setupHierarchy()
-        setupConstraints()
-        setupConfiguration()
+        setupViewCode()
     }
 
     @objc func updateTable() {

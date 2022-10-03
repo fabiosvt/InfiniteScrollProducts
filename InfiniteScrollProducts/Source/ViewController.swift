@@ -37,9 +37,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        setupHierarchy()
-        setupConstraints()
-        setupConfiguration()
+        setupViewCode()
     }
 }
 
@@ -109,7 +107,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = HeaderCell(section: section)
-        view.setup()
+        view.setupViewCode()
         return view
     }
     
@@ -125,7 +123,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "DetailsCell", for: indexPath) as? DetailsCell else { return UITableViewCell() }
         cell.model = CellModel(item: data[indexPath.section][indexPath.row], indexPath: indexPath)
         cell.delegate = self
-        cell.setup()
+        cell.setupViewCode()
         return cell
     }
     

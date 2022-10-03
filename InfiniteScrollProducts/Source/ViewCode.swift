@@ -8,7 +8,16 @@
 import Foundation
 
 protocol ViewCode: AnyObject {
+    func setupViewCode()
     func setupHierarchy()
     func setupConstraints()
     func setupConfiguration()
+}
+
+extension ViewCode {
+    func setupViewCode() {
+        setupHierarchy()
+        setupConstraints()
+        setupConfiguration()
+    }
 }

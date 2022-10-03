@@ -33,12 +33,6 @@ class HeaderCell: UIView {
         return button
     }()
     
-    func setup() {
-        setupHierarchy()
-        setupConstraints()
-        setupConfiguration()
-    }
-
     init(section: Int) {
         self.section = section
         super.init(frame: .zero)

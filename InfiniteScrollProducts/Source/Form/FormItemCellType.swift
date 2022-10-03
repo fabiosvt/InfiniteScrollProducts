@@ -45,7 +45,7 @@ enum FormItemCellType {
         switch self {
         case .textField, .intField, .doubleField:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextFieldCellType", for: indexPath) as? TextFieldCellType else { return UITableViewCell() }
-            cell.setup()
+            cell.setupViewCode()
             return cell
         case .textView:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextViewCellType", for: indexPath) as? TextViewCellType else { return UITableViewCell() }
