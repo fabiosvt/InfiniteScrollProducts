@@ -10,21 +10,6 @@ import UIKit
 class ViewController: UIViewController, UIScrollViewDelegate {
     private let apiCaller = APICaller()
     
-    private var container: UIView = {
-        let view = UIView(frame: .zero)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private var headerLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Products"
-        label.font = UIFont(name: "Halvetica", size: 17)
-        label.textColor = .white
-        return label
-    }()
-
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +26,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         tableView.dataSource = self
         tableView.allowsSelection = true
         tableView.sectionHeaderTopPadding = 0.0
-
+        tableView.contentInsetAdjustmentBehavior = .never
+        
+        self.navigationController?.navigationBar.isTranslucent = true
+        self.view.backgroundColor = UIColor.clear
+        var safeAreaBottom: CGFloat = 12.0
+        tableView.contentInset = UIEdgeInsets(top: safeAreaBottom, left: 0, bottom: 0, right: 0.0)
         fetchNewData()
     }
     
@@ -55,31 +45,21 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 
 extension ViewController: ViewCode {
     func setupHierarchy() {
-        view.addSubview(container)
-        container.addSubview(headerLabel)
-        container.addSubview(tableView)
+        view.addSubview(tableView)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            container.topAnchor.constraint(equalTo: view.topAnchor),
-            container.leftAnchor.constraint(equalTo: view.leftAnchor),
-            container.rightAnchor.constraint(equalTo: view.rightAnchor),
-            container.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-
-            headerLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 80.0),
-            headerLabel.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-
-            tableView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20.0),
-            tableView.leftAnchor.constraint(equalTo: container.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: container.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -32.0)
-
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32.0)
         ])
     }
 
     func setupConfiguration() {
         self.view.backgroundColor = UIColor.blue
+        self.navigationItem.title = "Products"
     }
 
 }

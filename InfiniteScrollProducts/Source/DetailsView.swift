@@ -18,7 +18,7 @@ class DetailsView: UIViewController, UITableViewDelegate {
     fileprivate var form: ProductForm
 
     private var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
+        let tableView = UITableView(frame: .zero)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(TextFieldCellType.self, forCellReuseIdentifier: "TextFieldCellType")
         tableView.register(TextViewCellType.self, forCellReuseIdentifier: "TextViewCellType")
@@ -130,7 +130,7 @@ extension DetailsView: ViewCode {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: container.topAnchor),
