@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Product: Decodable {
+struct Product: Codable {
     var id: Int?
     var title: String?
     var description: String?
@@ -21,7 +21,7 @@ struct Product: Decodable {
     var images: [String]?
 }
 
-struct Products: Decodable {
+struct Products: Codable {
     let products: [Product]
     let total: Int
     let skip: Int

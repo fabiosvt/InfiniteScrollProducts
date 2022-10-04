@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>productionDomain</key>
+	<string>https://vps.rup.com.br/</string>
+	<key>productionApiKey</key>
+	<string>c09066f762f15e5e6c9f7ac0c024f39c4c81e67b</string>
+	<key>devDomain</key>
+	<string>https://vps.rup.com.br/</string>
+	<key>devApiKey</key>
+	<string>b1cd6ef83ff175454e0d1b778fe05a0be24de272</string>
+</dict>
+</plist>

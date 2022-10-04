@@ -8,8 +8,8 @@
 import UIKit
 
 class ViewController: UIViewController, UIScrollViewDelegate {
-    private let apiCaller = APICaller()
-    
+    private let service = APIService()
+
     private var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,25 +71,27 @@ extension ViewController {
         let scrollContentSizeHeight = scrollView.contentSize.height
         let scrollOffset = scrollView.contentOffset.y
         if scrollOffset + scrollViewHeight >= scrollContentSizeHeight {
-            guard !apiCaller.isPaginating else { return }
             debugPrint("% '\(scrollOffset) \(scrollViewHeight)'")
             fetchNewData()
         }
     }
     
     private func fetchNewData() {
-        apiCaller.fetchData(pagination: true, completion: { [weak self] result in
-            switch result {
-            case .success(var data):
-                data.shuffle()
-                self?.data.append(contentsOf: [data])
+        let limit = 100
+        let request = APIRequest.fetchProductsRup(limit: limit)
+        service.fetchProducts(request: request, limit: limit) { (result, errors, response) in
+            if let errors = errors, errors.count > 0 {
+                print("error")
+            } else if let data = response as? Products {
+                let products = data.products
+                self.data.append(contentsOf: [products.shuffled()])
                 DispatchQueue.main.async {
-                    self?.tableView.reloadData()
+                    self.tableView.reloadData()
                 }
-            case .failure(_):
-                break
+
             }
-        })
+        }
+       
     }
 }
 
