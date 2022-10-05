@@ -3,7 +3,7 @@ attributes:
   LastUpgradeCheck: 5
   ORGANIZATIONNAME: "fabiosvt, Inc."
 options:
-  bundleIdPrefix: fabiosvt.InfiniteScroll.InfiniteScroll
+  bundleIdPrefix: fabiosvt.InfiniteScrollProducts.InfiniteScrollProducts
   deploymentTarget:
     iOS: 15.5
 configs:
@@ -131,7 +131,7 @@ targets:
           ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
           WEB_HOST: xxx
           WEB_BASE_PATH: https:$()/$()/$(WEB_HOST)
-          BUNDLE_DISPLAY_NAME: "XXXXXXXXXX"
+          BUNDLE_DISPLAY_NAME: InfiniteScrollProducts"
           GOOGLESERVICE_INFO_PLIST_DIR: ${SRCROOT}/App/FirebaseOptions/Develop
           PRODUCT_BUNDLE_IDENTIFIER: com.xxxxxx.xxxxxx.xxx
           STRIPE_API_KEY: xxx
@@ -143,7 +143,7 @@ targets:
           ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
           WEB_HOST: xxx
           WEB_BASE_PATH: https:$()/$()/$(WEB_HOST)
-          BUNDLE_DISPLAY_NAME: "XXXXXXXXXX"
+          BUNDLE_DISPLAY_NAME: "InfiniteScrollProducts"
           GOOGLESERVICE_INFO_PLIST_DIR: ${SRCROOT}/App/FirebaseOptions/Staging
           PRODUCT_BUNDLE_IDENTIFIER: xxx
           STRIPE_API_KEY: xxx
@@ -155,7 +155,7 @@ targets:
           ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
           WEB_HOST: xxx
           WEB_BASE_PATH: https:$()/$()/$(WEB_HOST)
-          BUNDLE_DISPLAY_NAME: "XXXXXXXXXX"
+          BUNDLE_DISPLAY_NAME: "InfiniteScrollProducts"
           GOOGLESERVICE_INFO_PLIST_DIR: ${SRCROOT}/App/FirebaseOptions/Production
           PRODUCT_BUNDLE_IDENTIFIER: com.kankak.coffee
           STRIPE_API_KEY: xxx

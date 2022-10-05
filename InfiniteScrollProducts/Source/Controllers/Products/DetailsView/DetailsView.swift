@@ -14,6 +14,7 @@ protocol FormDelegate {
 class DetailsView: UIViewController, UITableViewDelegate {
 
     var product: Product
+    weak var delegate: ViewControllerDelegate?
     
     fileprivate var form: ProductForm
 
@@ -72,12 +73,13 @@ class DetailsView: UIViewController, UITableViewDelegate {
 
     @objc func updateTable() {
         label.text = "Invalid field "
-       let isValid = form.isValid()
+        let isValid = form.isValid()
         if !isValid.0, let fieldError = isValid.1 {
             label.text = "Invalid field \(fieldError)"
         } else {
             debugPrint(product)
-          //  self.navigationController?.popViewController(animated: true) //deinits correctly
+            delegate?.didTapProductUpdateButton(product: product)
+            self.navigationController?.popViewController(animated: true)
         }
     }
 }
@@ -118,6 +120,8 @@ extension DetailsView: FormDelegate {
     }
 
 }
+
+// MARK: ViewCode
 
 extension DetailsView: ViewCode {
     func setupHierarchy() {

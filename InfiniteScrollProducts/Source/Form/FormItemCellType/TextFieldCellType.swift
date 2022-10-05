@@ -36,6 +36,7 @@ class TextFieldCellType: UITableViewCell, FormConformity {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViewCode()
     }
     
     required init?(coder: NSCoder) {
@@ -47,6 +48,8 @@ class TextFieldCellType: UITableViewCell, FormConformity {
     }
     
 }
+
+// MARK: ViewCode
 
 extension TextFieldCellType: ViewCode {
     func setupHierarchy() {

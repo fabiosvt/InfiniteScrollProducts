@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
         let navigationController = UINavigationController()
-        let viewController = ViewController()
+        let viewController = MenuViewController()
         navigationController.viewControllers = [viewController]
         window.rootViewController = navigationController
         window.backgroundColor = UIColor.white

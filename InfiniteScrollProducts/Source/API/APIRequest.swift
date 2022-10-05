@@ -212,9 +212,9 @@ enum APIRequest {
                     [
                         "title": "asc",
                         "category": "desc"
-                    ] as [String : Any]
+                    ] as [String: Any]
                 ]
-            ] as [String : Any]
+            ] as [String: Any]
             guard let body = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
                 return nil
             }
@@ -223,7 +223,7 @@ enum APIRequest {
         case .fetchProductsRup(let limit):
             let parameterDictionary = [
                 "limit": limit
-            ] as [String : Any]
+            ] as [String: Any]
             guard let body = try? JSONSerialization.data(withJSONObject: parameterDictionary, options: []) else {
                 return nil
             }

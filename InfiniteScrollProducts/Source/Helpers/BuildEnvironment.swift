@@ -12,7 +12,7 @@ enum BuildEnvironment: String {
     
     case development, production
     
-    var staticContentBaseURL : String {
+    var staticContentBaseURL: String {
         switch self {
         case .development:
             return ConfigValues.get.devDomain
