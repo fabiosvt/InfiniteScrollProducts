@@ -9,11 +9,10 @@
 import UIKit
 
 class ViewControllerCell: UICollectionViewCell {
-    var data: Product?
-    let datas2:Product = Product(title: "Title", description: "Description", brand: "Brand", category: "Category", thumbnail: "Thumbnail")
-    let headers = ["Title", "Description", "Brand", "Category", "Thumbnail"]
+    var product: Product?
+    var columnNames: Array<Any>?
 
-    weak var delegate: ViewControllerDelegate?
+    weak var delegate: FirstViewControllerDelegate?
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -61,24 +60,39 @@ extension ViewControllerCell: ViewCode {
     
 }
 
-extension ViewControllerCell: UICollectionViewDelegate, UICollectionViewDataSource {
+extension ViewControllerCell: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        guard let data = data else { return 0 }
-        return headers.count
+        guard let columnNames = columnNames else {
+            return 0
+        }
+        return columnNames.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellTypes.viewControllerCellDetails.description, for: indexPath) as? DetailsCell, let data = data {
-            cell.product = datas2
-            cell.delegate = delegate
-            cell.setupViewCode()
-            return cell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellTypes.viewControllerCellDetails.description, for: indexPath) as? DetailsCell, let product = product, let columnNames = columnNames else {
+            fatalError("Unable to dequeue subclassed cell")
         }
-        fatalError("Unable to dequeue subclassed cell")
+        cell.product = product
+        if let column = columnNames[indexPath.row] as? (String, Any) {
+            cell.field = column.0
+        }
+        cell.delegate = delegate
+        cell.setupViewCode()
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let columnNames = columnNames, let column = columnNames[indexPath.row] as? (String, Any), let productName = product?.value(for: column.0) else {
+            fatalError("Unable to dequeue subclassed cell")
+        }
+        let label = UILabel(frame: CGRect.zero)
+        label.text = "\(productName)"
+        label.sizeToFit()
+        return CGSize(width: label.frame.width, height: 90)
     }
 }

@@ -10,8 +10,11 @@ import UIKit
 class DetailsCell: UICollectionViewCell {
 
     var product: Product?
-    
-    weak var delegate: ViewControllerDelegate?
+    var field: String?
+    var title: String?
+    var value: String?
+
+    weak var delegate: FirstViewControllerDelegate?
 
     static let reuseIdentifier = "DetailsCell"
     
@@ -23,7 +26,7 @@ class DetailsCell: UICollectionViewCell {
         return label
     }()
     
-    private let label: UILabel = {
+    private let valueLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -50,7 +53,9 @@ class DetailsCell: UICollectionViewCell {
     
 
     @objc func didTapButton() {
-        guard let product = product else { return }
+        guard let product = product else {
+            return
+        }
         delegate?.didTapProductDetailButton(product: product)
     }
 }
@@ -60,29 +65,30 @@ class DetailsCell: UICollectionViewCell {
 extension DetailsCell: ViewCode {
     func setupHierarchy() {
         contentView.addSubview(titleLabel)
-        contentView.addSubview(label)
+        contentView.addSubview(valueLabel)
         contentView.addSubview(button)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.leftAnchor.constraint(equalTo: leftAnchor),
             titleLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.7),
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
 
-            label.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            label.leftAnchor.constraint(equalTo: leftAnchor),
+            valueLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
+            valueLabel.leftAnchor.constraint(equalTo: leftAnchor),
 
-            button.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 12),
-            button.leftAnchor.constraint(equalTo: leftAnchor, constant: 12),
+            button.topAnchor.constraint(equalTo: valueLabel.bottomAnchor, constant: 12),
             button.centerXAnchor.constraint(equalTo: centerXAnchor),
         ])
     }
     
     func setupConfiguration() {
-        guard let product = product else { return }
-        titleLabel.text = "section: row: "
-        label.text = product.title
+        guard let product = product, let field = field, let titleValue = product.value(for: field) else {
+            return
+        }
+        titleLabel.text = field
+        valueLabel.text = "\(titleValue)"
     }
     
 }

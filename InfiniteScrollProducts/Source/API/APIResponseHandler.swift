@@ -17,19 +17,27 @@ class APIResponseHandler {
     
     var code: String?  {
         
-        guard let httpURLResponse = self.httpURLResponse else {return nil}
+        guard let httpURLResponse = self.httpURLResponse else {
+            return nil
+        }
         
-        guard let location = httpURLResponse.url?.absoluteString else {return nil}
+        guard let location = httpURLResponse.url?.absoluteString else {
+            return nil
+        }
 
         let temp = location.split(separator: "?")
         
-        guard temp.count >= 2 else {return nil}
+        guard temp.count >= 2 else {
+            return nil
+        }
         
         let params = temp[1].split(separator: "&")
         
         for p in params {
             let temp = p.split(separator: "=")
-            guard temp.count == 2 else {continue}
+            guard temp.count == 2 else {
+                continue
+            }
             
             if temp[0] == "code" {
                 return String(temp[1])

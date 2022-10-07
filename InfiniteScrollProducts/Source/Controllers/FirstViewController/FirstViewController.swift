@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  FirstViewController.swift
 //  infiniteScroll
 //
 //  Created by Fabio Silvestri on 29/09/22.
@@ -7,26 +7,30 @@
 
 import UIKit
 
-protocol ViewControllerDelegate: AnyObject {
+protocol FirstViewControllerDelegate: AnyObject {
     func didTapProductDetailButton(product: Product)
     func didTapProductUpdateButton(product: Product)
 }
 
-class ViewController: UIViewController, UIScrollViewDelegate {
+class FirstViewController: UIViewController, UIScrollViewDelegate {
     private let service = APIService()
     private var isLoadingProducts = false
     private var maxProducsToFetch = 100
-
-    weak var delegate: ViewControllerDelegate?
+    private var columnNames = Array<Any>()
+    
+    weak var delegate: FirstViewControllerDelegate?
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         let w = view.frame.width
         layout.estimatedItemSize = CGSize(width: w, height: 150)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.isUserInteractionEnabled = true
+        view.register(ViewControllerCell.self, forCellWithReuseIdentifier: CollectionViewCellTypes.viewControllerCell.description)
+        view.register(HeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionViewCellTypes.viewControllerHeaderCell.description)
         return view
     }()
     
@@ -34,7 +38,6 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(collectionView)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.allowsSelection = true
@@ -44,6 +47,11 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         self.view.backgroundColor = UIColor.clear
         let safeAreaBottom: CGFloat = 12.0
         collectionView.contentInset = UIEdgeInsets(top: safeAreaBottom, left: 0, bottom: 0, right: 0.0)
+        do {
+            columnNames = try Product.instance.allProperties()
+        } catch _ {
+            debugPrint(#function, #line, "error")
+        }
         fetchNewProducts()
     }
     
@@ -53,7 +61,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
     }
 }
 
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension FirstViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         debugPrint(#function, #line, data.count)
@@ -66,9 +74,12 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellTypes.viewControllerCell.description, for: indexPath) as? ViewControllerCell else { fatalError("Unable to dequeue subclassed cell") }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CollectionViewCellTypes.viewControllerCell.description, for: indexPath) as? ViewControllerCell else {
+            fatalError("Unable to dequeue subclassed cell")
+        }
         let item = data[indexPath.section][indexPath.row]
-        cell.data = item
+        cell.product = item
+        cell.columnNames = columnNames
         cell.delegate = self
         cell.setupViewCode()
         return cell
@@ -78,23 +89,24 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
                         viewForSupplementaryElementOfKind elementKind: String,
                         at indexPath: IndexPath) -> UICollectionReusableView {
         if (elementKind == UICollectionView.elementKindSectionHeader) {
-            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: CollectionViewCellTypes.viewControllerHeaderCell.description, for: indexPath) as? HeaderCell else { fatalError("Unable to dequeue subclassed cell") }
+            guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: elementKind, withReuseIdentifier: CollectionViewCellTypes.viewControllerHeaderCell.description, for: indexPath) as? HeaderCell else {
+                fatalError("Unable to dequeue subclassed cell")
+            }
             headerView.section = indexPath.section
             headerView.setupConfiguration()
             return headerView
         }
         fatalError("Unable to dequeue subclassed cell")
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 30.0)
     }
-    
 }
 
 // MARK: Methods
 
-extension ViewController {
+extension FirstViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard !self.isLoadingProducts else { return }
@@ -130,7 +142,7 @@ extension ViewController {
 
 // MARK: Details delegate
 
-extension ViewController: ViewControllerDelegate {
+extension FirstViewController: FirstViewControllerDelegate {
     func didTapProductDetailButton(product: Product) {
         debugPrint(#function, #line, product)
         let push = DetailsView(product: product)
@@ -142,9 +154,10 @@ extension ViewController: ViewControllerDelegate {
         debugPrint(#function, #line, product)
     }
 }
+
 // MARK: ViewCode
 
-extension ViewController: ViewCode {
+extension FirstViewController: ViewCode {
     func setupHierarchy() {
         view.addSubview(collectionView)
     }
@@ -161,9 +174,6 @@ extension ViewController: ViewCode {
     func setupConfiguration() {
         self.view.backgroundColor = UIColor.blue
         self.navigationItem.title = "Products"
-        collectionView.register(ViewControllerCell.self, forCellWithReuseIdentifier: CollectionViewCellTypes.viewControllerCell.description)
-        collectionView.register(HeaderCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: CollectionViewCellTypes.viewControllerHeaderCell.description)
-        
     }
     
 }

@@ -44,10 +44,14 @@ enum FormItemCellType {
                 
         switch self {
         case .textField, .intField, .doubleField:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextFieldCellType", for: indexPath) as? TextFieldCellType else { fatalError("Unable to dequeue subclassed cell") }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextFieldCellType", for: indexPath) as? TextFieldCellType else {
+                fatalError("Unable to dequeue subclassed cell")
+            }
             return cell
         case .textView:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextViewCellType", for: indexPath) as? TextViewCellType else { fatalError("Unable to dequeue subclassed cell") }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "TextViewCellType", for: indexPath) as? TextViewCellType else {
+                fatalError("Unable to dequeue subclassed cell")
+            }
             return cell
         }
         

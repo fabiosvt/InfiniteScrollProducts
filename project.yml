@@ -15,7 +15,7 @@ configs:
   Production Release: release
 
 schemes:
-  App Develop:
+  Develop:
     build:
       targets:
         InfiniteScrollProducts: all
@@ -41,7 +41,7 @@ schemes:
     archive:
       config: Develop Release
       revealArchiveInOrganizer: false
-  App Staging:
+  Staging:
     build:
       targets:
         InfiniteScrollProducts: all
@@ -67,7 +67,7 @@ schemes:
     archive:
       config: Staging Release
       revealArchiveInOrganizer: true
-  App Production:
+  Production:
     build:
       targets:
         InfiniteScrollProducts: all

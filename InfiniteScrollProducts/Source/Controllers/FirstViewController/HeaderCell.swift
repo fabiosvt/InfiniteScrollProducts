@@ -37,7 +37,9 @@ class HeaderCell: UICollectionReusableView {
     }
 
     @objc func didTapButton() {
-        guard let section = self.section else { return }
+        guard let section = self.section else {
+            return
+        }
         debugPrint(#function, #line, section)
     }
 }
@@ -59,7 +61,9 @@ extension HeaderCell: ViewCode {
     }
     
     func setupConfiguration() {
-        guard let section = self.section else { return }
+        guard let section = self.section else {
+            return
+        }
         label.text="Products section \(section)"
     }
     

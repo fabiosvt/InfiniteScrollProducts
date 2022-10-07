@@ -12,6 +12,9 @@ enum CollectionViewCellTypes {
     case viewControllerCell
     case viewControllerCellDetails
     case viewControllerHeaderCell
+    case customCell
+    case headerView
+    case contentCellIdentifier
     
     var description: String {
         switch self {
@@ -21,6 +24,12 @@ enum CollectionViewCellTypes {
             return "viewControllerCellDetails"
         case .viewControllerHeaderCell:
             return "viewControllerHeaderCell"
+        case .customCell:
+            return "CustomCell"
+        case .headerView:
+            return "HeaderView"
+        case .contentCellIdentifier:
+            return "ContentCellIdentifier"
         }
     }
 }

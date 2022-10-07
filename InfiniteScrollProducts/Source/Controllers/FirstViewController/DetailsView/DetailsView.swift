@@ -14,7 +14,7 @@ protocol FormDelegate {
 class DetailsView: UIViewController, UITableViewDelegate {
 
     var product: Product
-    weak var delegate: ViewControllerDelegate?
+    weak var delegate: FirstViewControllerDelegate?
     
     fileprivate var form: ProductForm
 

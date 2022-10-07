@@ -21,22 +21,46 @@ class MenuViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .vertical
         view.distribution = .fillEqually
-        view.addArrangedSubview(plainViewControllerButton)
-        view.addArrangedSubview(subclassedViewButton)
+        view.addArrangedSubview(firstViewControllerButton)
+        view.addArrangedSubview(secondViewControllerButton)
+        view.addArrangedSubview(thirdViewControllerButton)
+        view.addArrangedSubview(fourthViewControllerButton)
+        view.addArrangedSubview(fifthViewControllerButton)
         return view
     }()
     
-    lazy var plainViewControllerButton: UIButton = {
+    lazy var firstViewControllerButton: UIButton = {
        let button = UIButton()
-        button.setTitle("Products ViewController", for: .normal)
-        button.addTarget(self, action: #selector(didTapProductsButton), for: .touchDown)
+        button.setTitle("First ViewController", for: .normal)
+        button.addTarget(self, action: #selector(didTapFirstViewControllerButton), for: .touchDown)
         return button
     }()
     
-    lazy var subclassedViewButton: UIButton = {
+    lazy var secondViewControllerButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Colors ViewController", for: .normal)
-        button.addTarget(self, action: #selector(didTapSubclassedButton), for: .touchDown)
+        button.setTitle("Second ViewController", for: .normal)
+        button.addTarget(self, action: #selector(didTapSecondViewControllerButton), for: .touchDown)
+        return button
+    }()
+    
+    lazy var thirdViewControllerButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Third ViewController", for: .normal)
+        button.addTarget(self, action: #selector(didTapThirdViewControllerButton), for: .touchDown)
+        return button
+    }()
+
+    lazy var fourthViewControllerButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Fourth ViewController", for: .normal)
+        button.addTarget(self, action: #selector(didTapFourthViewControllerButton), for: .touchDown)
+        return button
+    }()
+
+    lazy var fifthViewControllerButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Fifth ViewController", for: .normal)
+        button.addTarget(self, action: #selector(didTapFifthViewControllerButton), for: .touchDown)
         return button
     }()
 
@@ -44,12 +68,24 @@ class MenuViewController: UIViewController {
         setupViewCode()
     }
 
-    @objc func didTapProductsButton() {
-        self.navigationController?.pushViewController(ViewController(), animated: true)
+    @objc func didTapFirstViewControllerButton() {
+        self.navigationController?.pushViewController(FirstViewController(), animated: true)
     }
     
-    @objc func didTapSubclassedButton() {
+    @objc func didTapSecondViewControllerButton() {
         self.navigationController?.pushViewController(CollectionViewController(), animated: true)
+    }
+    
+    @objc func didTapThirdViewControllerButton() {
+        self.navigationController?.pushViewController(ThirdViewController(), animated: true)
+    }
+
+    @objc func didTapFourthViewControllerButton() {
+        self.navigationController?.pushViewController(FourthViewController(), animated: true)
+    }
+
+    @objc func didTapFifthViewControllerButton() {
+        self.navigationController?.pushViewController(FifthViewController(), animated: true)
     }
 
 }
