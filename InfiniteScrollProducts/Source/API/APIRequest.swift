@@ -122,14 +122,14 @@ struct ServiceErrorResponse: Codable {
 enum APIRequest {
     
     case fetchProducts(limit: Int)
-    case fetchProductsRup(limit: Int)
+    case fetchProductsApi(limit: Int)
     
     var requestName: String {
         switch self {
         case .fetchProducts:
             return "Fetch products"
             
-        case .fetchProductsRup:
+        case .fetchProductsApi:
             return "Fetch products"
             
         }
@@ -142,7 +142,7 @@ enum APIRequest {
         case .fetchProducts:
             return "https://dummyjson.com/\(self.path)"
             
-        case .fetchProductsRup:
+        case .fetchProductsApi:
             return "\(AppController.sharedInstance.buildEnviornment.staticContentBaseURL)\(self.path)"
 
         }
@@ -155,7 +155,7 @@ enum APIRequest {
         case .fetchProducts:
             return "products"
             
-        case .fetchProductsRup:
+        case .fetchProductsApi:
             return "api/products.json"
             
         }
@@ -167,7 +167,7 @@ enum APIRequest {
         case .fetchProducts(let limit):
             return [URLQueryItem(name: "limit", value: String(limit))]
             
-        case .fetchProductsRup(let limit):
+        case .fetchProductsApi(let limit):
             return [URLQueryItem(name: "limit", value: String(limit))]
             
         }
@@ -179,7 +179,7 @@ enum APIRequest {
         case .fetchProducts:
             return .GET
             
-        case .fetchProductsRup:
+        case .fetchProductsApi:
             return .GET
             
         }
@@ -193,7 +193,7 @@ enum APIRequest {
                     HTTPHeader(field: "Content-Type", value: "application/json"),
                     HTTPHeader(field: "Authorization", value: "accessTokenBearer")]
             
-        case .fetchProductsRup:
+        case .fetchProductsApi:
             return [HTTPHeader(field: "apikey", value: apiKey),
                     HTTPHeader(field: "Content-Type", value: "application/json"),
                     HTTPHeader(field: "Authorization", value: "accessTokenBearer")]
@@ -220,7 +220,7 @@ enum APIRequest {
             }
             return body
             
-        case .fetchProductsRup(let limit):
+        case .fetchProductsApi(let limit):
             let parameterDictionary = [
                 "limit": limit
             ] as [String: Any]

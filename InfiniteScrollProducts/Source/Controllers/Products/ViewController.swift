@@ -98,16 +98,16 @@ extension ViewController {
         let scrollViewHeight = scrollView.frame.size.height
         let scrollContentSizeHeight = scrollView.contentSize.height
         let scrollOffset = scrollView.contentOffset.y
-        if scrollOffset + scrollViewHeight >= scrollContentSizeHeight {
-            debugPrint("% '\(scrollOffset) \(scrollViewHeight)'")
+        if scrollOffset > scrollContentSizeHeight - scrollViewHeight {
+            debugPrint(#function, #line, "\(scrollOffset) \(scrollContentSizeHeight) \(scrollViewHeight)")
             fetchNewData()
         }
     }
     
     private func fetchNewData() {
-        debugPrint(#function, #line)
+        debugPrint(#function, #line, "##REQUEST##")
         let limit = 100
-        let request = APIRequest.fetchProductsRup(limit: limit)
+        let request = APIRequest.fetchProductsApi(limit: limit)
         service.fetchProducts(request: request, limit: limit) { (result, errors, response) in
             if let errors = errors, errors.count > 0 {
                 debugPrint("error")
@@ -117,7 +117,6 @@ extension ViewController {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
-                
             }
         }
         
