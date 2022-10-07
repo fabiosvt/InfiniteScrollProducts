@@ -33,6 +33,16 @@ typealias APIRefreshTokenResponse = (Bool, [ServiceError]?, Codable?) -> ()
 
 struct APIClient {
     
+    var dispatchGroup: DispatchGroup
+
+    init(dispatchGroup: DispatchGroup) {
+        self.dispatchGroup = dispatchGroup
+    }
+
+    init() {
+        self.dispatchGroup = DispatchGroup()
+    }
+
     typealias APIClientCompletion = (APIResult<Data?>) -> Void
     
     private let session: URLSession = {
@@ -51,18 +61,6 @@ struct APIClient {
     let apiResponseHandler = APIResponseHandler()
             
     func perform(_ request: APIRequest, _ completion: @escaping APIClientCompletion) {
-        performRequest(request) {result in
-            if case .failure(let error) = result {
-                if case APIError.authRequired = error {
-                    completion(.failure(.authRequired))
-                    return
-                }
-            }
-            completion(result)
-        }
-    }
-        
-    private func performRequest(_ request: APIRequest, _ completion: @escaping APIClientCompletion) {
         guard let baseURL = URL(string: request.url) else {
             completion(.failure(.invalidURL))
             return
@@ -85,6 +83,7 @@ struct APIClient {
         
         request.headers.forEach { urlRequest.addValue($0.value, forHTTPHeaderField: $0.field) }
         
+        dispatchGroup.enter()
         self.logRequest(request: request)
         
         let task = session.dataTask(with: url, completionHandler: { (data, response, error) in
@@ -93,6 +92,7 @@ struct APIClient {
                     logErrorMessages(error: error)
                 }
                 completion(.failure(.requestFailed))
+                self.dispatchGroup.leave()
                 return
             }
             apiResponseHandler.processHTTPURLResponse(httpURLResponse: httpURLResp)
@@ -102,6 +102,7 @@ struct APIClient {
                     logErrorMessages(error: error)
                 }
                 completion(.failure(.requestFailed))
+                self.dispatchGroup.leave()
                 return
             }
             
@@ -113,6 +114,7 @@ struct APIClient {
                 let issue = issues.first!
                 guard let code = issue.code else {
                     completion(.failure(.requestFailed))
+                    self.dispatchGroup.leave()
                     return
                 }
                 
@@ -122,10 +124,10 @@ struct APIClient {
                 default:
                     completion(.failure(.requestFailed))
                 }
-                
+                self.dispatchGroup.leave()
                 return
             }
-            
+            self.dispatchGroup.leave()
             completion(.success(result))
         })
         task.resume()

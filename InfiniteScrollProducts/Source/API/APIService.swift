@@ -29,6 +29,7 @@ public class APIService: Service {
                 completion(false, serviceError, nil)
             }
         }
+        client.dispatchGroup.wait()
     }
     
 }
