@@ -12,6 +12,6 @@ protocol Service {
     
     typealias APIServiceResponse = (Bool, [ServiceError]?, Codable?) -> ()
     
-    func fetchProducts(request: APIRequest, limit: Int, _ completion: @escaping APIServiceResponse)
+    func fetchProducts(request: APIRequest, _ completion: @escaping APIServiceResponse)
 
 }

@@ -12,7 +12,7 @@ import Combine
 public class APIService: Service {
     private let client = APIClient()
     
-    func fetchProducts(request: APIRequest, limit: Int, _ completion: @escaping APIServiceResponse) {
+    func fetchProducts(request: APIRequest, _ completion: @escaping APIServiceResponse) {
         client.perform(request) { result in
             switch result {
             case .success(let response):
@@ -29,7 +29,6 @@ public class APIService: Service {
                 completion(false, serviceError, nil)
             }
         }
-        client.dispatchGroup.wait()
     }
     
 }

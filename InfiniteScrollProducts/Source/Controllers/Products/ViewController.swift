@@ -14,7 +14,9 @@ protocol ViewControllerDelegate: AnyObject {
 
 class ViewController: UIViewController, UIScrollViewDelegate {
     private let service = APIService()
-    
+    private var isLoadingProducts = false
+    private var maxProducsToFetch = 100
+
     weak var delegate: ViewControllerDelegate?
 
     private lazy var collectionView: UICollectionView = {
@@ -42,7 +44,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         self.view.backgroundColor = UIColor.clear
         let safeAreaBottom: CGFloat = 12.0
         collectionView.contentInset = UIEdgeInsets(top: safeAreaBottom, left: 0, bottom: 0, right: 0.0)
-        fetchNewData()
+        fetchNewProducts()
     }
     
     override func viewDidLayoutSubviews() {
@@ -54,12 +56,12 @@ class ViewController: UIViewController, UIScrollViewDelegate {
 extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        debugPrint(data.count)
+        debugPrint(#function, #line, data.count)
         return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        debugPrint(data, section, data[section].count)
+        debugPrint(#function, #line, data, section, data[section].count)
         return data[section].count
     }
     
@@ -95,26 +97,29 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource, 
 extension ViewController {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !self.isLoadingProducts else { return }
         let scrollViewHeight = scrollView.frame.size.height
         let scrollContentSizeHeight = scrollView.contentSize.height
         let scrollOffset = scrollView.contentOffset.y
         if scrollOffset > scrollContentSizeHeight - scrollViewHeight {
             debugPrint(#function, #line, "\(scrollOffset) \(scrollContentSizeHeight) \(scrollViewHeight)")
-            fetchNewData()
+            fetchNewProducts()
         }
     }
     
-    private func fetchNewData() {
-        debugPrint(#function, #line, "##REQUEST##")
-        let limit = 100
-        let request = APIRequest.fetchProductsApi(limit: limit)
-        service.fetchProducts(request: request, limit: limit) { (result, errors, response) in
+    private func fetchNewProducts() {
+        debugPrint(#function, #line, "### REQUEST")
+        let request = APIRequest.fetchProductsApi(limit: maxProducsToFetch)
+        isLoadingProducts = true
+        service.fetchProducts(request: request) { (result, errors, response) in
             if let errors = errors, errors.count > 0 {
                 debugPrint("error")
             } else if let data = response as? Products {
                 let products = data.products
+                debugPrint(#function, #line, "### New products downloaded: ", products.count)
                 self.data.append(contentsOf: [products.shuffled()])
                 DispatchQueue.main.async {
+                    self.isLoadingProducts = false
                     self.collectionView.reloadData()
                 }
             }

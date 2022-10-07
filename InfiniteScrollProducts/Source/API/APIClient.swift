@@ -33,16 +33,6 @@ typealias APIRefreshTokenResponse = (Bool, [ServiceError]?, Codable?) -> ()
 
 struct APIClient {
     
-    var dispatchGroup: DispatchGroup
-
-    init(dispatchGroup: DispatchGroup) {
-        self.dispatchGroup = dispatchGroup
-    }
-
-    init() {
-        self.dispatchGroup = DispatchGroup()
-    }
-
     typealias APIClientCompletion = (APIResult<Data?>) -> Void
     
     private let session: URLSession = {
@@ -83,7 +73,6 @@ struct APIClient {
         
         request.headers.forEach { urlRequest.addValue($0.value, forHTTPHeaderField: $0.field) }
         
-        dispatchGroup.enter()
         self.logRequest(request: request)
         
         let task = session.dataTask(with: url, completionHandler: { (data, response, error) in
@@ -92,7 +81,6 @@ struct APIClient {
                     logErrorMessages(error: error)
                 }
                 completion(.failure(.requestFailed))
-                self.dispatchGroup.leave()
                 return
             }
             apiResponseHandler.processHTTPURLResponse(httpURLResponse: httpURLResp)
@@ -102,7 +90,6 @@ struct APIClient {
                     logErrorMessages(error: error)
                 }
                 completion(.failure(.requestFailed))
-                self.dispatchGroup.leave()
                 return
             }
             
@@ -114,7 +101,6 @@ struct APIClient {
                 let issue = issues.first!
                 guard let code = issue.code else {
                     completion(.failure(.requestFailed))
-                    self.dispatchGroup.leave()
                     return
                 }
                 
@@ -124,10 +110,8 @@ struct APIClient {
                 default:
                     completion(.failure(.requestFailed))
                 }
-                self.dispatchGroup.leave()
                 return
             }
-            self.dispatchGroup.leave()
             completion(.success(result))
         })
         task.resume()
@@ -164,7 +148,7 @@ struct APIClient {
         print("Request URL: \(request.url) ")
         print("Request METHOD: \(request.httpMethod) ")
         print("Request HEADERS: \(String(describing: request.headers))")
-        print(String(data: response, encoding: .utf8) ?? "")
+        print("Response decoded: \(String(data: response, encoding: .utf8) ?? "")")
 #endif
     }
         
